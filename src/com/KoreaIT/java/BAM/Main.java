@@ -63,15 +63,15 @@ public class Main {
 
 				String[] commandDiv = command.split(" ");
 				int id = Integer.parseInt(commandDiv[2]);
-				Article foundArticle = null;
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
+//				for (int i = 0; i < articles.size(); i++) {
+//					Article article = articles.get(i);
+//
+//					if (article.id == id) {
+//						foundArticle = article;
+//						break;
+//					}
+//				}
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
@@ -143,6 +143,10 @@ public class Main {
 
 		System.out.println("==프로그램 끝==");
 		sc.close();
+	}
+
+	private static Article getArticleById(int id) {
+		return null;
 	}
 }
 
