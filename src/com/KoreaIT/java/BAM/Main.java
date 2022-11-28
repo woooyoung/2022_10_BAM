@@ -48,12 +48,19 @@ public class Main {
 					System.out.println("게시글이 없습니다");
 					continue;
 				}
-				System.out.println("번호   /  제목");
+				System.out.println("번호     /    제목      /     조회");
+				String tmpTitle = null;
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
-					System.out.printf("%d    /   %s\n", article.id, article.title);
+					if (article.title.length() > 4) {
+						tmpTitle = article.title.substring(0, 4);
+						System.out.printf("%3d    /   %6s    /   %5d\n", article.id, tmpTitle + "...", article.hit);
+						continue;
+					}
+					System.out.printf("%3d    /   %6s    /   %5d\n", article.id, article.title, article.hit);
 				}
 			} else if (command.startsWith("article detail ")) {
+
 				String[] commandDiv = command.split(" ");
 				int id = Integer.parseInt(commandDiv[2]);
 				Article foundArticle = null;
@@ -69,11 +76,15 @@ public class Main {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
 				}
+
+				foundArticle.increaseHitCount();
+
 				System.out.printf("번호 : %d\n", foundArticle.id);
 				System.out.printf("작성날짜 : %s\n", foundArticle.regDate);
 				System.out.printf("수정날짜 : %s\n", foundArticle.updateDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
+				System.out.printf("조회 : %d\n", foundArticle.hit);
 
 			} else if (command.startsWith("article modify ")) {
 				String[] commandDiv = command.split(" ");
@@ -141,6 +152,7 @@ class Article {
 	String updateDate;
 	String title;
 	String body;
+	int hit;
 
 	public Article(int id, String regDate, String updateDate, String title, String body) {
 		this.id = id;
@@ -148,5 +160,10 @@ class Article {
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
+		this.hit = 0;
+	}
+
+	public void increaseHitCount() {
+		hit++;
 	}
 }
