@@ -11,9 +11,11 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
 
+		makeTestData();
+
 		Scanner sc = new Scanner(System.in);
 
-		int lastArticleId = 0;
+//		int lastArticleId = 0;
 
 		while (true) {
 			System.out.printf("명령어 ) ");
@@ -29,8 +31,9 @@ public class Main {
 			}
 
 			if (command.equals("article write")) {
-				int id = lastArticleId + 1;
-				lastArticleId = id;
+//				int id = lastArticleId + 1;
+//				lastArticleId = id;
+				int id = articles.size() + 1;
 				String regDate = Util.getTimeAndDateStr();
 				String updateDate = regDate;
 				System.out.printf("제목 : ");
@@ -126,6 +129,14 @@ public class Main {
 		sc.close();
 	}
 
+	private static void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다");
+
+		articles.add(new Article(1, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목1", "내용1", 11));
+		articles.add(new Article(2, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목3", "내용3", 33));
+	}
+
 	private static int getArticleIndexById(int id) {
 		int i = 0;
 		for (Article article : articles) {
@@ -140,21 +151,6 @@ public class Main {
 
 	private static Article getArticleById(int id) {
 
-//1		for (int i = 0; i < articles.size(); i++) {
-//			Article article = articles.get(i);
-//
-//			if (article.id == id) {
-//				return article;
-//			}
-//		}
-
-//2		for (Article article : articles) {
-//			if (article.id == id) {
-//				return article;
-//			}
-//		}
-
-//3
 		int index = getArticleIndexById(id);
 
 		if (index != -1) {
@@ -175,12 +171,16 @@ class Article {
 	int hit;
 
 	public Article(int id, String regDate, String updateDate, String title, String body) {
+		this(id, regDate, updateDate, title, body, 0);
+	}
+
+	public Article(int id, String regDate, String updateDate, String title, String body, int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
-		this.hit = 0;
+		this.hit = hit;
 	}
 
 	public void increaseHitCount() {
