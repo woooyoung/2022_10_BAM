@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+	public static List<Article> articles = new ArrayList<>();
+
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
 
 		Scanner sc = new Scanner(System.in);
 
 		int lastArticleId = 0;
-
-		List<Article> articles = new ArrayList<>();
 
 		while (true) {
 			System.out.printf("명령어 ) ");
@@ -63,15 +64,9 @@ public class Main {
 
 				String[] commandDiv = command.split(" ");
 				int id = Integer.parseInt(commandDiv[2]);
+
 				Article foundArticle = getArticleById(id);
-//				for (int i = 0; i < articles.size(); i++) {
-//					Article article = articles.get(i);
-//
-//					if (article.id == id) {
-//						foundArticle = article;
-//						break;
-//					}
-//				}
+
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
@@ -89,15 +84,9 @@ public class Main {
 			} else if (command.startsWith("article modify ")) {
 				String[] commandDiv = command.split(" ");
 				int id = Integer.parseInt(commandDiv[2]);
-				Article foundArticle = null;
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
 
-					if (article.id == id) {
-						foundArticle = article;
-						break;
-					}
-				}
+				Article foundArticle = getArticleById(id);
+
 				if (foundArticle == null) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
@@ -118,16 +107,8 @@ public class Main {
 				String[] commandDiv = command.split(" ");
 				int id = Integer.parseInt(commandDiv[2]);
 
-				int foundIndex = -1;
+				int foundIndex = getArticleIndexById(id);
 
-				for (int i = 0; i < articles.size(); i++) {
-					Article article = articles.get(i);
-
-					if (article.id == id) {
-						foundIndex = i;
-						break;
-					}
-				}
 				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다\n", id);
 					continue;
@@ -145,9 +126,44 @@ public class Main {
 		sc.close();
 	}
 
+	private static int getArticleIndexById(int id) {
+		int i = 0;
+		for (Article article : articles) {
+
+			if (article.id == id) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+	}
+
 	private static Article getArticleById(int id) {
+
+//1		for (int i = 0; i < articles.size(); i++) {
+//			Article article = articles.get(i);
+//
+//			if (article.id == id) {
+//				return article;
+//			}
+//		}
+
+//2		for (Article article : articles) {
+//			if (article.id == id) {
+//				return article;
+//			}
+//		}
+
+//3
+		int index = getArticleIndexById(id);
+
+		if (index != -1) {
+			return articles.get(index);
+		}
+
 		return null;
 	}
+
 }
 
 class Article {
