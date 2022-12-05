@@ -1,22 +1,56 @@
 package com.KoreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	private List<Article> articles;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
+	public ArticleController(Scanner sc) {
 		this.sc = sc;
-		this.articles = articles;
+		this.articles = new ArrayList<Article>();
 	}
 
-	public void doWrite() {
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+
+		switch (actionMethodName) {
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "write":
+			doWrite();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		}
+	}
+
+	public void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다");
+
+		articles.add(new Article(1, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목1", "내용1", 11));
+		articles.add(new Article(2, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목2", "내용2", 22));
+		articles.add(new Article(3, Util.getTimeAndDateStr(), Util.getTimeAndDateStr(), "제목3", "내용3", 33));
+	}
+
+	private void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getTimeAndDateStr();
 		String updateDate = regDate;
@@ -32,7 +66,7 @@ public class ArticleController {
 
 	}
 
-	public void showList() {
+	private void showList() {
 
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
@@ -52,7 +86,7 @@ public class ArticleController {
 
 	}
 
-	public void showDetail(String command) {
+	private void showDetail() {
 		String[] commandDiv = command.split(" ");
 		int id = Integer.parseInt(commandDiv[2]);
 
@@ -74,7 +108,7 @@ public class ArticleController {
 
 	}
 
-	public void doModify(String command) {
+	private void doModify() {
 		String[] commandDiv = command.split(" ");
 		int id = Integer.parseInt(commandDiv[2]);
 
@@ -98,7 +132,7 @@ public class ArticleController {
 
 	}
 
-	public void doDelete(String command) {
+	private void doDelete() {
 		String[] commandDiv = command.split(" ");
 		int id = Integer.parseInt(commandDiv[2]);
 

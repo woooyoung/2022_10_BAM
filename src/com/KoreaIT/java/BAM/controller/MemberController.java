@@ -1,22 +1,36 @@
 package com.KoreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.util.Util;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	private List<Member> members;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
-	public MemberController(List<Member> members, Scanner sc) {
+	public MemberController(Scanner sc) {
 		this.sc = sc;
-		this.members = members;
+		this.members = new ArrayList<Member>();
 	}
 
-	public void doJoin() {
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+
+		switch (actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		}
+	}
+
+	private void doJoin() {
 		int id = members.size() + 1;
 		String regDate = Util.getTimeAndDateStr();
 		String updateDate = regDate;
