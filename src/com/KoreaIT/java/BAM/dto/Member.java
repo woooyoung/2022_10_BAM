@@ -1,10 +1,7 @@
 package com.KoreaIT.java.BAM.dto;
 
-public class Member {
+public class Member extends Dto {
 
-	public int id;
-	public String regDate;
-	public String updateDate;
 	public String loginId;
 	public String loginPw;
 	public String name;
