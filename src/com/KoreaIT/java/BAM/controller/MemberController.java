@@ -13,6 +13,7 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
+	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 		this.sc = sc;
@@ -37,11 +38,15 @@ public class MemberController extends Controller {
 	}
 
 	private void doLogin() {
+		if (loginedMember != null) {
+			System.out.println("이미 로그인 되어있습니다");
+			return;
+		}
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
-		
+
 		// 사용자에게 입력받은 아이디에 해당하는 회원이 존재하는지 체크
 		Member member = getMemberByLoginId(loginId);
 
@@ -54,6 +59,8 @@ public class MemberController extends Controller {
 			System.out.println("비밀번호를 확인해주세요");
 			return;
 		}
+
+		loginedMember = member;
 
 		System.out.printf("로그인 성공! %s님 환영합니다\n", member.name);
 	}
